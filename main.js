@@ -256,10 +256,10 @@ var world_hardest_sudoku =
 	[0,0,8,5,0,0,0,1,0],
 	[0,9,0,0,0,0,4,0,0]
 ]
-
+/*
 console.log(generate_random_sudoku(9));
-// console.log(solve_sudoku(world_hardest_sudoku));
-
+console.log(solve_sudoku(world_hardest_sudoku));
+*/
 
 
 
