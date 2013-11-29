@@ -360,7 +360,7 @@ var t3 =
 // console.log(correct_sudoku(test))
 // var test_soduku = generate_random_sudoku();
 // console.log(test_soduku);
-console.log(solve_sudoku(t2));
+console.log(solve_sudoku(world_hardest_sudoku));
 
 
 
