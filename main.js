@@ -52,62 +52,14 @@ var have_repetition = function(sudoku_table, i, j, num)
 }
 
 /*
-	3*3
-	在3*3中随机选取四个数并且付值1～9
-
 	used to generate random sudoku table
+	n*n table (usually 9*9 table)
 */
 var generate_random_sudoku = function(n)
 {
-	var empty_sudoku_table = generate_empty_sudoku(9);
 	/*
-
-		start from left-top corner
-		(0,0) (3,0) (6,0)
-		(0,3) (3,3) (6,3)
-		(0,6) (3,6) (6,6)
-		
+		Didn't finish
 	*/
-	for(var a = 0; a <= 6; a=a+3)
-	{
-		for(var b = 0; b <= 6; b=b+3)
-		{
-			// a b is the left-top corner
-			var saved_x = []; // save x coord
-			var saved_y = []; // save y coord
-			var saved = []; // choose 4 different numbers
-			while(saved_x.length!==4){
-				var x = Math.floor(Math.random()*3);
-				var y = Math.floor(Math.random()*3);
-				var find_same = false;
-				for(var i = 0; i < saved_x.length; i++)
-				{
-					if(saved_x[i] === x && saved_y[i] == y)
-					{
-						find_same = true; // find same coord
-						break;
-					}
-				}
-				if(find_same) continue;
-				saved_x.push(x);
-				saved_y.push(y);
-				
-				while(true)
-				{
-					var num = Math.floor(Math.random()*9+1)
-					if (saved.indexOf(num)!==-1) continue;
-					if (have_repetition(empty_sudoku_table, a+x, b+y, num))
-					{
-						continue;
-					}
-					saved.push(num);
-					empty_sudoku_table[a+x][b+y] = num; // save num to sudoku table
-					break;
-				}
-			}
-		}
-	}
-	return empty_sudoku_table
 }
 
 // console.log(generate_random_sudoku());
@@ -256,6 +208,11 @@ var solve_sudoku = function(sudoku_table)
 		{
 			value_list_index[count] = 0;
 			count-=1;
+			if(count == -1)
+			{
+				console.log("ERROR:Invalid SOKUDO");
+				return "ERROR:Invalid SOKUDO";
+			}
 			continue;
 		}
 		for(var i = value_list_index[count]; i < available_value_list.length; i++)
@@ -284,18 +241,9 @@ var solve_sudoku = function(sudoku_table)
 	}
 }
 
-
-var test = [ 
-	[5,3,0,6,7,8,9,1,2],
-	[6,0,2,1,9,5,3,4,8],
-	[1,9,8,0,4,2,5,6,7],
-	[8,5,9,7,0,1,0,2,3],
-	[4,2,6,8,5,3,7,9,1],
-	[7,1,3,9,0,4,0,5,6],
-	[9,6,0,5,3,7,2,8,4],
-	[2,8,0,4,0,9,6,3,5],
-	[3,4,5,2,8,0,1,7,9]
-];
+/*
+	solve world hardest sudoku
+*/
 var world_hardest_sudoku = 
 [
 	[8,0,0,0,0,0,0,0,0],
@@ -307,60 +255,10 @@ var world_hardest_sudoku =
 	[0,0,1,0,0,0,0,6,8],
 	[0,0,8,5,0,0,0,1,0],
 	[0,9,0,0,0,0,4,0,0]
-
-]
-var world_hardest_sudoku2 = 
-[
-	[0,0,0,0,4,1,8,9,0],
-	[0,0,4,0,0,0,0,0,0],
-	[0,0,2,5,9,0,0,0,0],
-	[0,5,0,4,0,0,6,0,0],
-	[0,0,0,0,1,0,0,0,8],
-	[0,8,0,0,0,0,4,5,0],
-	[0,0,5,7,0,0,0,0,0],
-	[0,0,6,0,0,0,0,4,0],
-	[0,9,0,3,6,0,1,0,0]
-]
-var t = 
-[
-	[4,3,2,1,0,0,0,0,9],							
-	[0,0,0,0,9,0,0,3,4],			
-	[0,0,0,3,7,0,2,0,0],		
-	[1,0,0,0,2,5,0,8,0],		
-	[0,2,7,0,0,0,9,6,0],		
-	[0,5,0,6,3,0,0,0,1],		
-	[0,0,6,0,8,9,0,0,0],
-	[2,9,0,0,4,0,0,0,0],
-	[7,0,0,0,0,1,5,9,8]					
 ]
 
-var t2 = 
-[
-	[8,0,0,0,0,0,0,0,0],
-	[0,0,3,6,0,0,0,0,0],
-	[0,7,0,0,9,0,2,0,0],
-	[0,5,0,0,0,7,0,0,0],
-	[0,0,0,0,4,5,7,0,0],
-	[0,0,0,1,0,0,0,3,0],
-	[0,0,1,0,0,0,0,6,8],
-	[0,0,8,5,0,0,0,1,0],
-	[0,9,0,0,0,0,4,0,0]
-]
-
-var t3 = 
-[
-	[1,0,0,0],
-	[0,0,3,1],
-	[2,4,1,3],
-	[3,1,4,2]
-]
-
-// console.log(get_available_value_list(world_hardest_sudoku2, 1, 1));
-
-// console.log(correct_sudoku(test))
-// var test_soduku = generate_random_sudoku();
-// console.log(test_soduku);
-console.log(solve_sudoku(world_hardest_sudoku));
+console.log(generate_random_sudoku(9));
+// console.log(solve_sudoku(world_hardest_sudoku));
 
 
 
