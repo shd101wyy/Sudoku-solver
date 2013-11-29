@@ -4,6 +4,8 @@
 
 <strong>Usage: </strong>
 ```
+	sudoku.js
+
 	create sudoku puzzle:
 	eg:
 		var puzzle = 
@@ -21,6 +23,7 @@
 		where 0 means unknown value.
 
 	solve sudoku puzzle: call solve_sudoku function. return solved puzzle
+	eg:
 		solve_sudoku(puzzle)
 
 ```

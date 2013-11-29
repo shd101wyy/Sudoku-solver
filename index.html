@@ -1,0 +1,206 @@
+<html>
+	<head>
+		<title>Sudoku Solver</title>
+		<meta charset="utf8">
+		<script type="text/javascript" src="./sudoku.js"></script>
+	</head>
+
+	<body>
+		<style type="text/css">
+		body
+		{
+			background-color: rgb(96, 160, 249);
+		}
+		#main_div
+		{
+			position: absolute;
+			/*background-color: rgb(232, 245, 236);*/
+			left: 200px;
+			top:100px;
+			height:450px;
+			width: 450px;
+
+		}
+		#solve
+		{
+			position: absolute;
+			left: 750px;
+			top: 350px;
+			font-size: 30;
+			background-color: white;
+		}
+		#clean
+		{
+			position: absolute;
+			left: 750px;
+			top: 430px;
+			font-size: 30;
+			background-color: white;
+		}
+		#head1
+		{
+			position: absolute;
+			left: 750px;
+			top: 200px;
+			color: rgb(251, 246, 226);
+		}
+		#github_link
+		{
+			position: absolute;
+			left: 750px;
+			top: 515px;
+			font-size: 30;
+			color: rgb(251, 246, 226);
+		}
+		</style>
+		<h1 id="head1"> Sudoku Solver! </h1>
+		<div id="main_div">
+		</div>
+		<button id="solve" onclick="solve()"> Solve </button>
+		<button id="clean" onclick="clean()"> Clean </button>
+		<a id="github_link" href="https://github.com/shd101wyy/Sudoku-solver">Github~</a>
+	</body>
+	<script type="text/javascript">
+
+	// create sudoku table
+	var sudoku_table = document.createElement("table");
+	sudoku_table.style.width = "450px";
+	sudoku_table.style.height = "450px";
+	sudoku_table.style.backgroundColor = "rgb(232, 245, 236)";
+
+	// save cells
+	var sudoku_table_cells = [];
+
+	var width = 450/9;
+	for(var i = 0; i < 9; i++)
+	{
+		sudoku_table_cells.push([]);
+		var new_row = document.createElement("tr");
+		sudoku_table.appendChild(new_row);
+		for(var j = 0; j < 9; j++)
+		{
+			var cell = document.createElement("td");
+			cell.style.border="2px solid rgb(150, 160, 200)"
+
+			var input = document.createElement("input");
+			input.style.width = width+"px";
+			input.style.height = width+"px";
+			input.style.textAlign = "center";
+			input.style.fontSize = "25";
+			cell.appendChild(input);
+
+			new_row.appendChild(cell);
+
+			sudoku_table_cells[i].push(input); // save to sudoku_table_cells;
+		}
+	}
+	document.getElementById("main_div").appendChild(sudoku_table);
+
+	var world_hardest_sudoku = 
+	[
+		[8,0,0,0,0,0,0,0,0],
+		[0,0,3,6,0,0,0,0,0],
+		[0,7,0,0,9,0,2,0,0],
+		[0,5,0,0,0,7,0,0,0],
+		[0,0,0,0,4,5,7,0,0],
+		[0,0,0,1,0,0,0,3,0],
+		[0,0,1,0,0,0,0,6,8],
+		[0,0,8,5,0,0,0,1,0],
+		[0,9,0,0,0,0,4,0,0]
+	]
+	// init inputs according to world_hardest_sudoku
+	for(var i = 0; i < 9; i++)
+	{
+		for(var j = 0; j < 9; j++)
+		{
+			if(world_hardest_sudoku[i][j] === 0) continue;
+			sudoku_table_cells[i][j].value = world_hardest_sudoku[i][j];
+		}
+	}
+
+	/*
+		clean table
+	*/
+	var clean = function()
+	{
+		for(var i = 0; i < sudoku_table_cells.length; i++)
+		{
+			for(var j = 0; j < sudoku_table_cells[i].length; j++)
+			{
+				var input = sudoku_table_cells[i][j];
+				input.value = "";
+			}
+		}
+	}
+
+	var solve = function()
+	{
+		var puzzle = [];
+		for(var i = 0; i < sudoku_table_cells.length; i++)
+		{
+			puzzle.push([]);
+			for(var j = 0; j < sudoku_table_cells[i].length; j++)
+			{
+				try
+				{
+					var num = sudoku_table_cells[i][j].value;
+					if(num.length == 0) // empty
+					{
+						puzzle[i].push(0);
+						continue;
+					}
+					num = parseInt(num);
+					if(num<1 || num > 9)
+					{
+						alert("Invalid sudoku");
+						return;
+					}
+					else
+					{
+						puzzle[i].push(num);
+					}
+
+				}
+				catch(err)
+				{
+					alert(err);
+				}
+			}
+		}
+
+		// solve puzzle
+		var solved_puzzle = solve_sudoku(puzzle);
+
+		// update table
+		for(var i = 0; i < sudoku_table_cells.length; i++)
+		{
+			for(var j = 0; j < sudoku_table_cells[i].length; j++)
+			{
+				sudoku_table_cells[i][j].value = solved_puzzle[i][j];
+			}
+		}
+	}
+
+	</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
