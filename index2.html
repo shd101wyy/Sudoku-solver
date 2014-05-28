@@ -81,6 +81,7 @@
             // var x = block.attr("x");
             // var y = block.attr("y");
             var b_width = block.attr("width");
+            if(n == 4) b_width *= 0.6;
             
             var selections = [];
             
@@ -123,7 +124,19 @@
                 });
             }
         }
-        
+        /*
+            remove current board
+        */
+        var removeCurrentBoard = function(){
+            for(var a = 0; a < CURRENT_BOARD.length; a++){
+                for(var b = 0; b < CURRENT_BOARD[a].length; b++){
+                    var b_ = CURRENT_BOARD[a][b];
+                    b_.text_object.remove(); // remvoe text
+                    b_.remove(); // remove block
+                }
+            } 
+            CURRENT_BOARD = null;
+        }
         /*
             draw change size panel
         */ 
@@ -152,20 +165,27 @@
                 drawTextInBlock(left, top, b_width, b_width, s[a], r);
                 selections.push(r);
             }
-            
             // add click event
             for(var i = 1; i < selections.length; i++){
                 selections[i].click(function(){
                     var n = parseInt(this.text_object.attr("text"));
                     // clear current board
-                    for(var a = 0; a < CURRENT_BOARD.length; a++){
-                        for(var b = 0; b < CURRENT_BOARD[a].length; b++){
-                            var b_ = CURRENT_BOARD[a][b];
-                            b_.text_object.remove(); // remvoe text
-                            b_.remove(); // remove block
-                        }
-                    }                    
-                    CURRENT_BOARD = null;
+                    removeCurrentBoard();
+                    // clear selection panel
+                    clearSelection();
+                    
+                    var board_width = HEIGHT * 0.8;
+                    var board_left = (WIDTH - board_width)/2 * 0.6;
+                    var board_top = (HEIGHT - board_width)/2 *0.9;
+
+                    drawSudoku(board_left, board_top, board_width, n);
+                    
+                });
+                selections[i].text_object.click(function(){
+                    var n = parseInt(this.attr("text"));
+                    // clear current board
+                    removeCurrentBoard();
+                    // clear selection panel
                     clearSelection();
                     
                     var board_width = HEIGHT * 0.8;
@@ -274,7 +294,7 @@
         
         /* draw buttons */
         var button_width = 300;
-        var button_height = 100;
+        var button_height = 80;
         // draw solve button
         var x = WIDTH - button_width;
         var y = HEIGHT * 0.25;
