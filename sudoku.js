@@ -1,4 +1,4 @@
-/*
+﻿/*
 	used to generate sudoku
 	n * n
 	with all values = 0
